@@ -3,4 +3,4 @@
 	url = https://github.com/processing/p5.js.git
 [submodule "lib/flocking.js"]
 	path = lib/flocking.js
-	url = https://github.com/processing/p5.js.git
+	url = https://github.com/colinbdclark/Flocking.git
