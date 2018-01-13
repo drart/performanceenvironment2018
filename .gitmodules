@@ -1,3 +1,6 @@
 [submodule "lib/flocking"]
 	path = lib/flocking
 	url = https://github.com/colinbdclark/Flocking.git
+[submodule "lib/artlib.js"]
+	path = lib/artlib.js
+	url = https://github.com/drart/artlib.js.git
