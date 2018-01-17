@@ -4,3 +4,6 @@
 [submodule "lib/artlib.js"]
 	path = lib/artlib.js
 	url = https://github.com/drart/artlib.js.git
+[submodule "lib/osc"]
+	path = lib/osc
+	url = https://github.com/colinbdclark/osc.js.git
