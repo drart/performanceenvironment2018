@@ -91,7 +91,7 @@ fluid.defaults("adam.midi.bcr2000", {
 function july2018(){
     if(window !== undefined){
         window.octopus = adam.octopus();
-        window.quneo = adam.midi.quneo.july2018();
+        window.sc = adam.stereoclick();
     }
 
 }
