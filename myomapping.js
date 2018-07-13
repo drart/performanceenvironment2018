@@ -44,6 +44,9 @@ Myo.on('orientation', function(data){
     if(sc !== undefined){
         if(this.arm === "left"){
             sc.set("cr.source.phase", data.x);
+            dv.set("verb.source.mul", data.x);
+            dv.set("verb.source.density", data.y * 100);
+            dv.set("verb.mix", data.z );
         }
         if(this.arm === "right"){
             sc.set("cr.q", data.x*200);
@@ -60,6 +63,7 @@ Myo.on('pose', function(data){
 
         if(data === "wave_out"){
             sc.set("cr.source.mul", 0);
+            dv.play();
         }
 
     }else{
@@ -70,6 +74,8 @@ Myo.on('pose', function(data){
 
 Myo.on('pose_off', function(data){
     //console.log(this.arm + data + "_off");
+    //console.log(data );
+    //console.log(typeof data );
     if (this.arm === "left"){
         myoleftpose = data + "_off";
         $("#myo-left-pose").text(myoleftpose);
@@ -79,7 +85,9 @@ Myo.on('pose_off', function(data){
     }
 
         if(data === "wave_out"){
+            //console.log("wave out off");
             sc.set("cr.source.mul", 1);
+            dv.pause();
         }
 });
 

@@ -92,8 +92,11 @@ function july2018(){
     if(window !== undefined){
         window.octopus = adam.octopus();
         window.sc = adam.stereoclick();
-        window.
+        window.dv = adam.dustyverb();
+        window.qc = adam.quadclick();
+        qc.pause();
         sc.pause();
+        dv.pause();
     }
 }
 
@@ -120,13 +123,16 @@ fluid.defaults("adam.quadclick", {
     synthDef: [
     {
         id: "a",
-        ugen: "flock.ugen.filter.biquad.lp",
+        ugen: "flock.ugen.distortion.deJonge",
+        amount: 150,
+        /*
         freq: {
             ugen: "flock.ugen.sinOsc",
             freq: 0.2,
             add: 5000,
             mul: 1200,
         },
+        */
         source: {
             ugen: "flock.ugen.impulse",
             freq: 1,
@@ -147,13 +153,16 @@ fluid.defaults("adam.quadclick", {
         }
     },       {
         id: "d",
-        ugen: "flock.ugen.filter.biquad.lp",
+        ugen: "flock.ugen.distortion.deJonge",
+        amount: 100,
+        /*
         freq: {
             ugen: "flock.ugen.sinOsc",
             freq: 0.2,
             add: 5000,
             mul: 1200,
         },
+        */
         source: {
             ugen: "flock.ugen.impulse",
             freq: 1,
@@ -205,3 +214,89 @@ playdrone.ripple = function(){
         freq: 5
     });
 };
+
+
+
+
+var fourdrone = flock.synth({
+    synthDef:[
+    {
+        ugen: "flock.ugen.playBuffer",
+        id: "sample1",
+        buffer:{
+            url: "samples/newdrone.wav"
+        },
+        start: 0,
+        loop: 0,
+        trigger:{
+            ugen: "flock.ugen.valueChangeTrigger",
+            source: 0
+        },
+        mul: {
+            ugen: "flock.ugen.squareOsc", 
+            freq: 3,
+            mul: 0.5, 
+            add: 0.5
+        }
+    },
+    {
+        ugen: "flock.ugen.playBuffer",
+        id: "sample2",
+        buffer:{
+            url: "samples/newdrone.wav"
+        },
+        start: 0,
+        loop: 0,
+        trigger:{
+            ugen: "flock.ugen.valueChangeTrigger",
+            source: 0
+        },
+        mul: {
+            ugen: "flock.ugen.squareOsc",
+            freq: 4, 
+            mul: 0.5, 
+            add: 0.5
+        }
+    },
+    {
+        ugen: "flock.ugen.playBuffer",
+        id: "sample3",
+        buffer:{
+            url: "samples/newdrone.wav"
+        },
+        start: 0,
+        loop: 0,
+        trigger:{
+            ugen: "flock.ugen.valueChangeTrigger",
+            source: 0
+        },
+        mul: {
+            ugen: "flock.ugen.squareOsc",
+            freq: 5,
+            mul: 0.5, 
+            add: 0.5
+        }
+    },
+    {
+        ugen: "flock.ugen.playBuffer",
+        id: "sample4",
+        buffer:{
+            url: "samples/newdrone.wav"
+        },
+        start: 0,
+        loop: 0,
+        trigger:{
+            ugen: "flock.ugen.valueChangeTrigger",
+            source: 0
+        },
+        mul: {
+            ugen: "flock.ugen.squareOsc",
+            freq: 6,
+            mul: 0.5,
+            add: 0.5
+        }
+    }
+    ]
+});
+
+
