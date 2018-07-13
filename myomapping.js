@@ -31,11 +31,11 @@ myorightx.attr("id", "myo-right-orientation-x-vis").attr("type", "range").attr("
 myorighty.attr("id", "myo-right-orientation-y-vis").attr("type", "range").attr("max", 1000).appendTo(myorightdiv);
 myorightz.attr("id", "myo-right-orientation-z-vis").attr("type", "range").attr("max", 1000).appendTo(myorightdiv);
 
-myoleftpose = undefined;
-myorightpose = undefined;
+var myoleftpose = undefined;
+var myorightpose = undefined;
 
 Myo.on('orientation', function(data){
-    //$("#myo-" + this.arm + "-orientation").text(fluid.prettyPrintJSON(data));
+    $("#myo-" + this.arm + "-orientation").text(fluid.prettyPrintJSON(data));
     $("#myo-" + this.arm + "-orientation-x-vis").val(data.x*1000);
     $("#myo-" + this.arm + "-orientation-y-vis").val(data.y*1000);
     $("#myo-" + this.arm + "-orientation-z-vis").val(data.z*1000);
@@ -44,6 +44,10 @@ Myo.on('orientation', function(data){
     if(sc !== undefined){
         if(this.arm === "left"){
             sc.set("cr.source.phase", data.x);
+        }
+        if(this.arm === "right"){
+            sc.set("cr.q", data.x*200);
+            sc.set("cl.q", data.x*200);
         }
     }
 });

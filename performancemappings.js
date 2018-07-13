@@ -92,7 +92,116 @@ function july2018(){
     if(window !== undefined){
         window.octopus = adam.octopus();
         window.sc = adam.stereoclick();
+        window.
+        sc.pause();
     }
-
 }
 
+
+
+fluid.defaults("adam.quadclick", {
+    gradeNames: "flock.synth",
+    invokers: {
+        /*
+        split: {
+            funcName: "adam.quadclick.split",
+            args: ["{that}"]
+        },
+        slide: {
+            funcName: "adam.quadclick.slide",
+            args: ["{that}", "{arguments}.0", "{arguments}.1", "{arguments}.2"]
+        },
+        */
+        splitsimple: {
+            func: "{that}.set",
+            args: ["a.source.phase", 0.5]
+        }
+    },
+    synthDef: [
+    {
+        id: "a",
+        ugen: "flock.ugen.filter.biquad.lp",
+        freq: {
+            ugen: "flock.ugen.sinOsc",
+            freq: 0.2,
+            add: 5000,
+            mul: 1200,
+        },
+        source: {
+            ugen: "flock.ugen.impulse",
+            freq: 1,
+        }
+    },
+    {
+        id: "s",
+        ugen: "flock.ugen.filter.biquad.lp",
+        freq: {
+            ugen: "flock.ugen.sinOsc",
+            add: 4000,
+            mul: 1000,
+            freq: 0.25
+        },
+        source: {
+            ugen: "flock.ugen.impulse",
+            freq: 1,
+        }
+    },       {
+        id: "d",
+        ugen: "flock.ugen.filter.biquad.lp",
+        freq: {
+            ugen: "flock.ugen.sinOsc",
+            freq: 0.2,
+            add: 5000,
+            mul: 1200,
+        },
+        source: {
+            ugen: "flock.ugen.impulse",
+            freq: 1,
+        }
+    },
+        {
+            id: "f",
+            ugen: "flock.ugen.filter.biquad.lp",
+            freq: {
+                ugen: "flock.ugen.sinOsc",
+                add: 4000,
+                mul: 1000,
+                freq: 0.25
+            },
+            source: {
+                ugen: "flock.ugen.impulse",
+                freq: 1,
+            }
+        }
+    ]
+});
+
+
+var playdrone = flock.synth({
+    synthDef:{
+        ugen: "flock.ugen.playBuffer",
+        id: "sample",
+        buffer:{
+            url: "samples/newdrone.wav"
+        },
+        start: 0,
+        loop: 0,
+        trigger:{
+            ugen: "flock.ugen.valueChangeTrigger",
+            source: 0
+        }
+    }
+});
+
+playdrone.myplay = function(){ 
+    playdrone.set("sample.trigger.source", 1)
+};
+
+playdrone.ripple = function(){
+    playdrone.set("sample.mul", {
+        ugen: "flock.ugen.squareOsc", 
+        add: 0.5,
+        mul: 0.5,
+        freq: 5
+    });
+};
