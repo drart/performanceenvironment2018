@@ -1,6 +1,39 @@
 /////////////////////////////////////////////
 //  Controller Mappings
 /////////////////////////////////////////////
+fluid.defaults("adam.midi.quneo.november2018", {
+    //gradeNames: ["adam.midi.quneo", "adam.midi.console", "adam.midi.domlog"],
+    gradeNames: ["adam.midi.quneo", "adam.midi.domlog"],
+    listeners:{ 
+        noteOn: function (msg) {
+	// chrome 70 issue
+	flock.webAudio.audioSystem.audioContextSingleton.resume()
+
+	
+	var scplay = window.sc.isPlaying();
+	console.log(scplay);
+	if ( !scplay ){
+		window.sc.play();
+	}else{
+		window.sc.pause();
+	}
+            /*if (msg.note >= 68 && msg.note <= 83){
+                octopus.set("bop.freq.add", flock.midiFreq(msg.note));        
+                octopus.set("bop.mul.gate", 1);
+            }
+            */
+
+        },
+        noteOff: function (msg) {
+        },
+        control: function (msg) {
+            if(msg.number <  10) {
+                octopus.set("f"+(msg.number+1)+".mul", msg.value/ 127);
+            }
+        }
+    }
+});
+
 
 fluid.defaults("adam.midi.quneo.july2018", {
     //gradeNames: ["adam.midi.quneo", "adam.midi.console", "adam.midi.domlog"],
@@ -87,6 +120,17 @@ fluid.defaults("adam.midi.bcr2000", {
 /////////////////////////////////////////////
 //  Performance Mappings
 /////////////////////////////////////////////
+
+function november2018(){
+    if(window !== undefined){
+        window.octopus = adam.octopus();
+        window.sc = adam.stereoclick();
+	window.amfm = adam.amfm();
+
+
+	adam.midi.quneo.november2018();
+    }
+}
 
 function july2018(){
     if(window !== undefined){

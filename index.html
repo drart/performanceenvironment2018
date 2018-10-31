@@ -1,9 +1,9 @@
 <html>
     <head>
-        <!--script src="lib/osc/dist/osc-browser.min.js"></script-->
+        <script src="lib/osc/dist/osc-browser.min.js"></script>
         <script src="lib/flocking/dist/flocking-all.js"></script>
         <script src="lib/artlib.js/adam.js"></script>
-        <script src="lib/myojs/myo.js"></script>
+        <!--script src="lib/myojs/myo.js"></script-->
         <!--script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script-->
 
         <script>
@@ -26,7 +26,7 @@
         </style>
     </head>
     <body>
-        <!--script>
+        <script>
             var oscPort = new osc.WebSocketPort({
                 url: "ws://localhost:9000", // URL to your Web Socket server.
                 metadata: true
@@ -43,28 +43,8 @@
                 } 
                 document.getElementById(msg.address).innerHTML = fluid.prettyPrintJSON(msg); 
             });
-        </script-->
+        </script>
 
-
-        octopus.setallvols 0 to 100<br>
-        octopus.proceed<br>
-        octopus.scatter = can't do proceed after this<br>
-        octopus.scatterratio<br>
-        sc.play<br>
-        sc.split<br>
-
-        <hr>
-        dusty<br>
-        octopus<br>
-        qc.play() set rhythm going<br>
-        playdrone ripple/muteqc<br>
-        var ab = adam.bassetc<br>
-        qc.play()<br>
-        <br>        
-        dustyverb<br>
-        
-        
-        <hr>
 
         <input type="checkbox" id="sf1" name="sf1"><span id="sf1-label"></span>
         <input type="checkbox" id="sf2" name="sf2"><span id="sf2-label"></span>
@@ -72,6 +52,13 @@
         <input type="checkbox" id="sf4" name="sf4"><span id="sf4-label"></span>
 
         <hr>
+
+        <input type="checkbox" id="starter" name="starter"><span >start audio</span>
+	<script>
+		document.getElementById('starter').onclicked= function(){
+			flock.webAudio.audioSystem.audioContextSingleton.resume()
+		};
+	</script>
 
         <h2>MIDI</h2>
         <div id="midi-display"></div>
@@ -81,10 +68,10 @@
 
         <script src="midicontrollers.js"></script>
         <script src="performancemappings.js"> </script> 
-        <script src="myomapping.js"> </script> 
+        <!--script src="myomapping.js"> </script--> 
         <!--script src="visuals.js"> </script--> 
         <script> 
-            july2018();
+            november2018();
             flock.enviro.shared.play();
         </script>
     </body>
