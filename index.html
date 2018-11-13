@@ -28,20 +28,68 @@
     <body>
         <script>
             var oscPort = new osc.WebSocketPort({
-                url: "ws://localhost:9000", // URL to your Web Socket server.
+                url: "ws://localhost:8080", 
                 metadata: true
             });
             oscPort.open();
+            oscPort.on("bundle", function(bundle){
+                    //console.log(bundle.packets);
+                    for (var i = 0; i < bundle.packets.length; i++){
+                        if (bundle.packets[i].args[0].value === "set"){
+                            //var xxx = bundle.packets[i].args[2].value;
+                            //var yyy = bundle.packets[i].args[3].value;
+
+                            var touchdiv =  document.getElementById( bundle.packets[i].args[1].value );
+                            if(touchdiv === null){
+                                var newaddress = document.createElement("div");
+                                newaddress.id = bundle.packets[i].args[1].value;
+                                newaddress.innerHTML = fluid.prettyPrintJSON(bundle.packets[i]);
+                                var recenttouch = document.getElementById("osctarget").firstChild;
+                                document.getElementById("osctarget").insertBefore(newaddress, recenttouch);
+                            } else{
+                               touchdiv.innerHTML = fluid.prettyPrintJSON(bundle.packets[i]);
+                            }
+                        } 
+
+                        if (bundle.packets[i].args[0].value === "alive"){
+                            //console.log(bundle.packets[i].args.length);
+                            var livemessages = document.getElementById("osctarget");
+                            for (var l = 0; l < livemessages.children.length; l++){
+                                var foundit = false;
+                                for(var j = 1; j< bundle.packets[i].args.length; j++){
+                                    if(livemessages.children[l].id === bundle.packets[i].args[j].value.toString()){
+                                        foundit = true;
+                                        break;
+                                    }
+                                } 
+                                if (!foundit){
+                                    livemessages.children[l].remove(); 
+                                }
+                            }
+                            /*
+                            for (var j = 1; j <bundle.packets[i].args.length; j++){
+                                if (document.getElementById( bundle.packets[i].args[j].value ) !== null){
+                                }
+                            } 
+                            */
+                        }
+                    }
+            });
             oscPort.on("message", function(msg){
                 if (document.getElementById(msg.address) === null){
                     //console.log(fluid.prettyPrintJSON(msg)); 
+                    //console.log(msg.args);
 
-                    var newaddress = document.createElement("div");
-                    newaddress.id = msg.address;
-                    var recenttouch = document.getElementById("osctarget").firstChild;
-                    document.getElementById("osctarget").insertBefore(newaddress, recenttouch);
-                } 
-                document.getElementById(msg.address).innerHTML = fluid.prettyPrintJSON(msg); 
+                    //var newaddress = document.createElement("div");
+                    //newaddress.id = msg.address;
+                    //var recenttouch = document.getElementById("osctarget").firstChild;
+                    //document.getElementById("osctarget").insertBefore(newaddress, recenttouch);
+                } else{
+                
+                    //console.log(fluid.prettyPrintJSON(msg)); 
+                }
+
+                //document.getElementById(msg.address).innerHTML = fluid.prettyPrintJSON(msg); 
             });
         </script>
 
@@ -66,12 +114,15 @@
         <h2>Myo</h2>
         <div id="myo-display"></div>
 
+        <h2>OSC</h2>
+        <div id="osctarget"></div>
+
         <script src="midicontrollers.js"></script>
         <script src="performancemappings.js"> </script> 
         <!--script src="myomapping.js"> </script--> 
         <!--script src="visuals.js"> </script--> 
         <script> 
-            november2018();
+            //november2018();
             flock.enviro.shared.play();
         </script>
     </body>

@@ -123,12 +123,12 @@ fluid.defaults("adam.midi.bcr2000", {
 
 function november2018(){
     if(window !== undefined){
-        window.octopus = adam.octopus();
-        window.sc = adam.stereoclick();
-	window.amfm = adam.amfm();
+        //window.octopus = adam.octopus();
+        //window.sc = adam.stereoclick();
+	    //window.amfm = adam.amfm();
 
 
-	adam.midi.quneo.november2018();
+	//adam.midi.quneo.november2018();
     }
 }
 
