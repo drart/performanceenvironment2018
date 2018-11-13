@@ -36,8 +36,9 @@
                     //console.log(bundle.packets);
                     for (var i = 0; i < bundle.packets.length; i++){
                         if (bundle.packets[i].args[0].value === "set"){
-                            //var xxx = bundle.packets[i].args[2].value;
-                            //var yyy = bundle.packets[i].args[3].value;
+                            var xxx = bundle.packets[i].args[2].value;
+                            var yyy = bundle.packets[i].args[3].value;
+
 
                             var touchdiv =  document.getElementById( bundle.packets[i].args[1].value );
                             if(touchdiv === null){
@@ -66,14 +67,31 @@
                                     livemessages.children[l].remove(); 
                                 }
                             }
-                            /*
-                            for (var j = 1; j <bundle.packets[i].args.length; j++){
-                                if (document.getElementById( bundle.packets[i].args[j].value ) !== null){
-                                }
-                            } 
-                            */
                         }
                     }
+
+                    // bad way to do this...
+                    var livemessages = document.getElementById("osctarget");
+                    for( var i = 0; i < livemessages.children.length; i++){
+                        var superdata = JSON.parse (livemessages.children[i].innerHTML );
+                        //console.log(livemessages.children[i].innerHTML);
+                        //console.log(superdata);
+                        //mintsynth.set("things.freq", yyy * 300 + 1);
+                        // range of 0.01 to 0.2 is pretty great
+                        //mintsynth.set("granny.grainDur", xxx / 5);
+                        if (i === 0){
+                            mintsynth.set("granny.grainDur", superdata.args[2].value / 5);
+                        }
+                        mintsynth.set("thing" + (i+1) + ".freq", superdata.args[3].value * 300 + 1);
+                        mintsynth.set("thing" + (i+1) + ".mul", 0.2);
+                    }
+                    if(livemessages.children.length < 5){
+                        for (var j = livemessages.children.length; j < 5; j++){
+                            mintsynth.set("thing" + (j+1) + ".mul", 0);
+                        }
+                    }
+
+
             });
             oscPort.on("message", function(msg){
                 if (document.getElementById(msg.address) === null){
@@ -90,6 +108,58 @@
                 }
 
                 //document.getElementById(msg.address).innerHTML = fluid.prettyPrintJSON(msg); 
+            });
+        </script>
+        <script>
+            var mintsynth = flock.synth({
+                synthDef:{
+                    ugen: "flock.ugen.freeverb",
+                    mix: 1, 
+                    damp: 0.7,
+                    room: 0.9,
+                    source: {
+                        ugen: "flock.ugen.granulator",
+                        id: "granny",
+                        numGrains: 20,
+                        grainDur: 0.01,
+                        delay: 8,
+                        source: {
+                            ugen: "flock.ugen.sum",
+                            sources:[
+                                {
+                                   id: "thing1",
+                                   ugen: "flock.ugen.saw", 
+                                   freq: 300,
+                                   mul: 0
+                                },
+                                {
+                                   id: "thing2",
+                                   ugen: "flock.ugen.saw", 
+                                   freq: 300,
+                                   mul: 0.0
+                                },
+                                {
+                                   id: "thing3",
+                                   ugen: "flock.ugen.saw", 
+                                   freq: 300,
+                                   mul: 0.0
+                                },
+                                {
+                                   id: "thing4",
+                                   ugen: "flock.ugen.saw", 
+                                   freq: 300,
+                                   mul: 0.0
+                                },
+                                {
+                                   id: "thing5",
+                                   ugen: "flock.ugen.saw", 
+                                   freq: 300,
+                                   mul: 0.0
+                                }
+                            ],
+                        }
+                    }
+                } 
             });
         </script>
 
