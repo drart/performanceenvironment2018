@@ -80,10 +80,10 @@
                         // range of 0.01 to 0.2 is pretty great
                         //mintsynth.set("granny.grainDur", xxx / 5);
                         if (i === 0){
-                            mintsynth.set("granny.grainDur", superdata.args[2].value / 5);
+                            mintsynth.set("granny.grainDur", superdata.args[2].value / 5 + 0.01);
                         }
                         mintsynth.set("thing" + (i+1) + ".freq", superdata.args[3].value * 300 + 1);
-                        mintsynth.set("thing" + (i+1) + ".mul", 0.2);
+                        mintsynth.set("thing" + (i+1) + ".mul", 0.4);
                     }
                     if(livemessages.children.length < 5){
                         for (var j = livemessages.children.length; j < 5; j++){
